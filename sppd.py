@@ -11,14 +11,15 @@ A small utility to download streams from SVT-Play
 """
 
 import requests
+import pydoc
 import json
+import sys
 import re
 
 def stripComments(inp):
     inp = str(inp)
     return re.sub(r'(?m)^ *#.*\n?', '', inp)
 
-testurl = 'http://www.svtplay.se/video/2705548/indiens-dotter/dokument-utifran-indiens-dotter-avsnitt-1'
 def getUrl(url):
     r = requests.get(url + '?output=json')
     jsonData = json.loads(r.text)
@@ -31,4 +32,4 @@ def getUrl(url):
     print(playlist)
 
 if __name__ == '__main__':
-    getUrl(testurl)
+    getUrl(sys.argv[1])
