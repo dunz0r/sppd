@@ -24,6 +24,7 @@ def stripComments(inp):
 
 class streamlist:
     url = ''
+    playlist = []
 
     def __init__(self, url):
         print("hello")
@@ -39,14 +40,14 @@ class streamlist:
         f = requests.get(playlistUrl)
         playlist = stripComments(f.text)
         playlist = playlist.splitlines()
-        print playlist
-        return playlist
+        streamlist.playlist = playlist
 
-    def fetchStreams(self,playlist):
-        print(playlist)
+    def fetchStreams(self):
+        print(streamlist.playlist)
 
 
 if __name__ == '__main__':
     streamt = streamlist(sys.argv[1])
     streamt.getUrls()
+    streamt.fetchStreams()
 
