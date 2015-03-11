@@ -13,6 +13,7 @@ A small utility to download streams from SVT-Play
 import requests
 import pydoc
 import json
+import time
 import sys
 import re
 
@@ -21,9 +22,24 @@ def stripComments(inp):
     return re.sub(r'(?m)^ *#.*\n?', '', inp)
 
 
+def progressbar(it, prefix = "", size = 60):
+    count = len(it)
+    def _show(_i):
+        x = int(size*_i/count)
+        sys.stdout.write("%s[%s%s] %i/%i\r" % (prefix, "#"*x, "."*(size-x), _i, count))
+        sys.stdout.flush()
+    
+    _show(0)
+    for i, item in enumerate(it):
+        yield item
+        _show(i+1)
+    sys.stdout.write("\n")
+    sys.stdout.flush()
+
 class streamlist:
     url = ''
     playlists = []
+    outFile = ''
 
     def __init__(self, url):
         streamlist.url = url
@@ -40,16 +56,17 @@ class streamlist:
         playlist = playlist.splitlines()
         streamlist.playlists = playlist
 
-    def fetchStreams(self):
-        r = requests.get(streamlist.playlists[6])
+    def fetchSegments(self, outFile):
+        r = requests.get(streamlist.playlists[3])
         urls = stripComments(r.text)
         urls = urls.splitlines()
-        for y,x in enumerate(urls):
-            sys.stdout.write("Fetching segment {0:3d} of {1:3d}\n\r".format(y+1, len(urls)))
-            sys.stdout.flush()
-
+        with open(outFile, "a") as output:
+            for i in progressbar(range(len(urls)), "Fetching segments: "):
+                output.write(requests.get(urls[i]).text)
+        output.close()
+    
 if __name__ == '__main__':
     streamt = streamlist(sys.argv[1])
     streamt.getPlaylists()
-    streamt.fetchStreams()
+    streamt.fetchSegments(sys.argv[2])
 
