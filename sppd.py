@@ -20,16 +20,18 @@ def stripComments(inp):
     inp = str(inp)
     return re.sub(r'(?m)^ *#.*\n?', '', inp)
 
+
 def getUrl(url):
+    """
+    This function gets the url and returns a list of stream URLs
+    """
     r = requests.get(url + '?output=json')
     jsonData = json.loads(r.text)
     playlistUrl = jsonData['video']['videoReferences'][1]['url']
-    print(playlistUrl)
     f = requests.get(playlistUrl)
-    print(f.text)
     playlist = stripComments(f.text)
     playlist = playlist.splitlines()
-    print(playlist)
+    return playlist
 
 if __name__ == '__main__':
-    getUrl(sys.argv[1])
+    print(getUrl(sys.argv[1]))
