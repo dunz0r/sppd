@@ -23,13 +23,12 @@ def stripComments(inp):
 
 class streamlist:
     url = ''
-    playlist = []
+    playlists = []
 
     def __init__(self, url):
-        print("hello")
         streamlist.url = url
 
-    def getUrls(self):
+    def getPlaylists(self):
         """
         This function gets the url and returns a list of stream URLs
         """
@@ -39,14 +38,19 @@ class streamlist:
         f = requests.get(playlistUrl)
         playlist = stripComments(f.text)
         playlist = playlist.splitlines()
-        streamlist.playlist = playlist
+        for i in playlist:
+            print(i)
+        streamlist.playlists = playlist
 
     def fetchStreams(self):
-        print(streamlist.playlist)
-
+        r = requests.get(streamlist.playlists[6])
+        urls = stripComments(r.text)
+        urls = urls.splitlines()
+        for y,x in enumerate(urls):
+            print("Fetching segment {0:3d} of {1:3d}".format(y+1, len(urls)))
 
 if __name__ == '__main__':
     streamt = streamlist(sys.argv[1])
-    streamt.getUrls()
+    streamt.getPlaylists()
     streamt.fetchStreams()
 
