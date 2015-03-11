@@ -45,7 +45,8 @@ class streamlist:
         urls = stripComments(r.text)
         urls = urls.splitlines()
         for y,x in enumerate(urls):
-            print("Fetching segment {0:3d} of {1:3d}".format(y+1, len(urls)))
+            sys.stdout.write("Fetching segment {0:3d} of {1:3d}\n\r".format(y+1, len(urls)))
+            sys.stdout.flush()
 
 if __name__ == '__main__':
     streamt = streamlist(sys.argv[1])
