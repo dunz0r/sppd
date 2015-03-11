@@ -10,7 +10,6 @@
 A small utility to download streams from SVT-Play
 """
 
-import subprocess
 import requests
 import pydoc
 import json
