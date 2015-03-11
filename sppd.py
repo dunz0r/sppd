@@ -22,18 +22,18 @@ def stripComments(inp):
     return re.sub(r'(?m)^ *#.*\n?', '', inp)
 
 
-class sppd:
+class streamlist:
     url = ''
 
     def __init__(self, url):
         print("hello")
-        sppd.url = url
+        streamlist.url = url
 
     def getUrls(self):
         """
         This function gets the url and returns a list of stream URLs
         """
-        r = requests.get(sppd.url + '?output=json')
+        r = requests.get(streamlist.url + '?output=json')
         jsonData = json.loads(r.text)
         playlistUrl = jsonData['video']['videoReferences'][1]['url']
         f = requests.get(playlistUrl)
@@ -47,6 +47,6 @@ class sppd:
 
 
 if __name__ == '__main__':
-    stream = sppd(sys.argv[1])
-    stream.getUrls()
+    streamt = streamlist(sys.argv[1])
+    streamt.getUrls()
 
