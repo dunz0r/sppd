@@ -10,6 +10,7 @@
 A small utility to download streams from SVT-Play
 """
 
+import subprocess
 import requests
 import pydoc
 import json
@@ -21,17 +22,31 @@ def stripComments(inp):
     return re.sub(r'(?m)^ *#.*\n?', '', inp)
 
 
-def getUrl(url):
-    """
-    This function gets the url and returns a list of stream URLs
-    """
-    r = requests.get(url + '?output=json')
-    jsonData = json.loads(r.text)
-    playlistUrl = jsonData['video']['videoReferences'][1]['url']
-    f = requests.get(playlistUrl)
-    playlist = stripComments(f.text)
-    playlist = playlist.splitlines()
-    return playlist
+class sppd:
+    url = ''
+
+    def __init__(self, url):
+        print("hello")
+        sppd.url = url
+
+    def getUrls(self):
+        """
+        This function gets the url and returns a list of stream URLs
+        """
+        r = requests.get(sppd.url + '?output=json')
+        jsonData = json.loads(r.text)
+        playlistUrl = jsonData['video']['videoReferences'][1]['url']
+        f = requests.get(playlistUrl)
+        playlist = stripComments(f.text)
+        playlist = playlist.splitlines()
+        print playlist
+        return playlist
+
+    def fetchStreams(self,playlist):
+        print(playlist)
+
 
 if __name__ == '__main__':
-    print(getUrl(sys.argv[1]))
+    stream = sppd(sys.argv[1])
+    stream.getUrls()
+
