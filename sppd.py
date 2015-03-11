@@ -38,8 +38,6 @@ class streamlist:
         f = requests.get(playlistUrl)
         playlist = stripComments(f.text)
         playlist = playlist.splitlines()
-        for i in playlist:
-            print(i)
         streamlist.playlists = playlist
 
     def fetchStreams(self):
