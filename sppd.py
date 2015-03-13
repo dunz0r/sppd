@@ -60,9 +60,11 @@ class streamlist:
         r = requests.get(streamlist.playlists[3])
         urls = stripComments(r.text)
         urls = urls.splitlines()
-        with open(outFile, "a") as output:
+        with open(outFile, "ab") as output:
             for i in progressbar(range(len(urls)), "Fetching segments: "):
-                output.write(requests.get(urls[i]).text)
+                s = requests.get(urls[i])
+                output.write(s.content)
+                s.close()
         output.close()
     
 if __name__ == '__main__':
