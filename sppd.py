@@ -28,7 +28,7 @@ def progressbar(it, prefix = "", size = 60):
         x = int(size*_i/count)
         sys.stdout.write("%s[%s%s] %i/%i\r" % (prefix, "#"*x, "."*(size-x), _i, count))
         sys.stdout.flush()
-    
+
     _show(0)
     for i, item in enumerate(it):
         yield item
@@ -66,7 +66,7 @@ class streamlist:
                 output.write(s.content)
                 s.close()
         output.close()
-    
+
 if __name__ == '__main__':
     streamt = streamlist(sys.argv[1])
     streamt.getPlaylists()
