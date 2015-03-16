@@ -12,8 +12,6 @@ A small utility to download streams from SVT-Play
 
 import requests
 import pydoc
-import json
-import time
 import sys
 import re
 
@@ -49,15 +47,14 @@ class streamlist:
         This function gets the url and returns a list of stream URLs
         """
         r = requests.get(streamlist.url + '?output=json')
-        jsonData = json.loads(r.text)
-        playlistUrl = jsonData['video']['videoReferences'][1]['url']
+        playlistUrl = r.json['video']['videoReferences'][1]['url']
         f = requests.get(playlistUrl)
         playlist = stripComments(f.text)
         playlist = playlist.splitlines()
         streamlist.playlists = playlist
 
     def fetchSegments(self, outFile):
-        r = requests.get(streamlist.playlists[3])
+        r = requests.get(streamlist.playlists[6])
         urls = stripComments(r.text)
         urls = urls.splitlines()
         with open(outFile, "ab") as output:
