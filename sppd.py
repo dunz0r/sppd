@@ -47,7 +47,8 @@ class streamlist:
         This function gets the url and returns a list of stream URLs
         """
         r = requests.get(streamlist.url + '?output=json')
-        playlistUrl = r.json['video']['videoReferences'][1]['url']
+        playlistUrl = r.json()
+        playlistUrl = playlistUrl['video']['videoReferences'][1]['url'])
         f = requests.get(playlistUrl)
         playlist = stripComments(f.text)
         playlist = playlist.splitlines()
