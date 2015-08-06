@@ -48,7 +48,7 @@ class streamlist:
         """
         r = requests.get(streamlist.url + '?output=json')
         playlistUrl = r.json()
-        playlistUrl = playlistUrl['video']['videoReferences'][1]['url'])
+        playlistUrl = playlistUrl['video']['videoReferences'][1]['url']
         f = requests.get(playlistUrl)
         playlist = stripComments(f.text)
         playlist = playlist.splitlines()
