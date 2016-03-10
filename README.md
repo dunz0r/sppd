@@ -1,5 +1,6 @@
 # sppd
 A simple script which downloads videos from SVTPlay
+(currently not working because SVT changed stuff)
 
 ## Usage
 
